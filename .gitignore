@@ -1,0 +1,16 @@
+# Local-only: training dataset (use the "az80-microstructure-data" Kaggle
+# dataset instead of committing images here; see README.md).
+/data/
+
+# Local-only: duplicate of ddpm.py/modules.py/utils.py/image_generator.py
+# nested under a subfolder; the tracked copies at the repo root are canonical.
+/AZ80-DDPM/
+
+# Notebook run artifacts
+checkpoints/
+models/
+generated_samples/
+.ipynb_checkpoints/
+
+__pycache__/
+*.pyc

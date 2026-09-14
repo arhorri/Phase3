@@ -13,3 +13,38 @@ https://github.com/dome272/Diffusion-Models-pytorch/tree/main
 https://github.com/lucidrains/denoising-diffusion-pytorch
 https://github.com/CompVis/latent-diffusion
 
+## Training notebook (`az80-image-generation.ipynb`)
+
+The notebook in this repo trains the conditional DDPM from randomly initialized weights, on Kaggle's free GPU tier, following the architecture and methodology in the paper (Section 2.2).
+
+### Running it on Kaggle
+
+1. Open a new Kaggle Notebook and enable **GPU** under *Settings → Accelerator*.
+2. *File → Add Input → GitHub* and add this repository (`arhorri/Phase3`).
+3. *File → Add Input → Datasets* and add the **`az80-microstructure-data`** dataset. The notebook expects it to mirror this repo's `data/` layout: `Training/<series>/*.jpg`, `Testing/<series>/*.jpg`, `Training Labels.xlsx`, `Testing Labels.xlsx`.
+4. Run all cells. Checkpoints and the final model are written under the working directory (see Folder structure below).
+
+Running locally instead (`git clone git@github.com:arhorri/Phase3.git`) works the same way — the notebook falls back to the `data/` folder at the repo root automatically.
+
+### Main hyperparameters
+
+| Parameter | Value |
+|---|---|
+| Image size | 512×512, single-channel (grayscale), normalized to [-1, 1] |
+| Diffusion steps | 1000 |
+| Beta schedule | linear, `1e-4` → `0.02` |
+| Batch size | 4 |
+| Optimizer | Adam, `lr = 3e-4` |
+| Loss | MSE (true noise vs. predicted noise) |
+| EMA | `beta = 0.995`, starts averaging after 2000 steps |
+| Iterations | 3600 (paper default — "more than 130 h of computation"; configurable, with checkpoint resume for multi-session runs) |
+| Train/test split | 87:13, leave-one-category-out (114 vs. 17 of 131 image classes) |
+
+### Folder structure
+
+```
+data/                 Training/Testing SEM images + process-parameter labels (local only, see .gitignore)
+checkpoints/           periodic training checkpoints (model + EMA model + optimizer state)
+models/                final trained model, saved at the end of training
+```
+
