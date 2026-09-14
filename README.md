@@ -13,18 +13,28 @@ https://github.com/dome272/Diffusion-Models-pytorch/tree/main
 https://github.com/lucidrains/denoising-diffusion-pytorch
 https://github.com/CompVis/latent-diffusion
 
-## Training notebook (`az80-image-generation.ipynb`)
+## Training notebooks
 
-The notebook in this repo trains the conditional DDPM from randomly initialized weights, on Kaggle's free GPU tier, following the architecture and methodology in the paper (Section 2.2).
+Two notebooks train the same conditional DDPM from randomly initialized weights, following the architecture and methodology in the paper (Section 2.2) — pick whichever free GPU host you're using:
+
+- **`az80-image-generation.ipynb`** — for Kaggle.
+- **`az80-image-generation-colab.ipynb`** — for Google Colab (data + checkpoints on Google Drive instead of a Kaggle dataset input; auto-resumes from the latest Drive checkpoint across sessions).
 
 ### Running it on Kaggle
 
 1. Open a new Kaggle Notebook and enable **GPU** under *Settings → Accelerator*.
 2. *File → Add Input → GitHub* and add this repository (`arhorri/Phase3`).
-3. *File → Add Input → Datasets* and add the **`az80-microstructure-data`** dataset. The notebook expects it to mirror this repo's `data/` layout: `Training/<series>/*.jpg`, `Testing/<series>/*.jpg`, `Training Labels.xlsx`, `Testing Labels.xlsx`.
+3. *File → Add Input → Datasets* and add a dataset that mirrors this repo's `data/` layout: `Training/<series>/*.jpg`, `Testing/<series>/*.jpg`, `Training Labels.xlsx`, `Testing Labels.xlsx` (any dataset name works — the notebook searches Kaggle's mounted inputs structurally rather than by name).
 4. Run all cells. Checkpoints and the final model are written under the working directory (see Folder structure below).
 
 Running locally instead (`git clone git@github.com:arhorri/Phase3.git`) works the same way — the notebook falls back to the `data/` folder at the repo root automatically.
+
+### Running it on Google Colab
+
+1. Upload a dataset folder mirroring `data/`'s layout to Google Drive (any location under My Drive, any folder name).
+2. Open `az80-image-generation-colab.ipynb` in Colab (or File → Open notebook → GitHub → `arhorri/Phase3`).
+3. Runtime → Change runtime type → GPU.
+4. Run the Setup cell and authorize Drive access when prompted, then run the rest of the notebook. Checkpoints/model/samples are written to Drive (`My Drive/az80_ddpm_outputs/` by default) and training auto-resumes from the latest checkpoint there on a fresh runtime.
 
 ### Main hyperparameters
 
