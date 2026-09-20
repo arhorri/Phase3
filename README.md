@@ -36,6 +36,16 @@ Running locally instead (`git clone git@github.com:arhorri/Phase3.git`) works th
 3. Runtime → Change runtime type → GPU.
 4. Run the Setup cell and authorize Drive access when prompted, then run the rest of the notebook. Checkpoints/model/samples are written to Drive (`My Drive/az80_ddpm_outputs/` by default) and training auto-resumes from the latest checkpoint there on a fresh runtime.
 
+### Reproducing the paper's figures (Fig. 2, 3, 4)
+
+Section 9 of both notebooks redraws the paper's result figures from your trained model, laid out like the originals, and saves them as PNGs under `generated_samples/paper_figures/`:
+
+- **9.1 — Fig. 2:** FID score vs. training iteration (with the real-vs-real baseline) plus one image sharpening from noise across checkpoints. Needs `pytorch-fid` (installed by the notebook; requires internet) and the checkpoints the training loop saves at iteration 30 and every 600 iterations.
+- **9.2 — Fig. 3:** synthesized vs. real images for eight seen conditions, with process parameters and I-beam sample location under each pair.
+- **9.3 — Fig. 4:** synthesized vs. real images for unseen conditions (one-I-beam-out, one-sample-out, one-magnification-out), all taken from `Testing/`.
+
+Sampling is slow (about 1000 U-Net passes per image), so generated images are cached and interrupted runs resume. With few images the FID's absolute values aren't comparable to the paper's; use the trend. The coloured Mg₁₇Al₁₂ phase highlights are an automatic approximation of the paper's hand annotations (`HIGHLIGHT_PHASES = False` turns them off).
+
 ### Main hyperparameters
 
 | Parameter | Value |
@@ -49,6 +59,8 @@ Running locally instead (`git clone git@github.com:arhorri/Phase3.git`) works th
 | EMA | `beta = 0.995`, starts averaging after 2000 steps |
 | Iterations | 3600 (paper default — "more than 130 h of computation"; configurable, with checkpoint resume for multi-session runs) |
 | Train/test split | 87:13, leave-one-category-out (114 vs. 17 of 131 image classes) |
+
+Checkpoints are written at iteration 30 and every 600 iterations (the paper's Fig. 2 panels).
 
 ### Folder structure
 
