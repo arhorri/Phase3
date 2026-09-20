@@ -44,7 +44,7 @@ Section 9 of both notebooks redraws the paper's result figures from your trained
 - **9.2 — Fig. 3:** synthesized vs. real images for eight seen conditions, with process parameters and I-beam sample location under each pair.
 - **9.3 — Fig. 4:** synthesized vs. real images for unseen conditions (one-I-beam-out, one-sample-out, one-magnification-out), all taken from `Testing/`.
 
-Sampling is slow (about 1000 U-Net passes per image), so generated images are cached and interrupted runs resume. With few images the FID's absolute values aren't comparable to the paper's; use the trend. The coloured Mg₁₇Al₁₂ phase highlights are an automatic approximation of the paper's hand annotations (`HIGHLIGHT_PHASES = False` turns them off).
+Sampling is slow (about 1000 U-Net passes per image), so generated images are cached and interrupted runs resume. Before drawing anything, Section 9 moves the training-only tensors (`model`, optimizer state) off the GPU and keeps only the EMA model, since at 512x512 each copy of this model is ~1.4 GiB; re-run Section 5 with `RESUME_FROM` before training further in the same session. With few images the FID's absolute values aren't comparable to the paper's; use the trend. The coloured Mg₁₇Al₁₂ phase highlights are an automatic approximation of the paper's hand annotations (`HIGHLIGHT_PHASES = False` turns them off).
 
 ### Main hyperparameters
 
