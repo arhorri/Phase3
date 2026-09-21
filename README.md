@@ -60,7 +60,7 @@ Sampling is slow (about 1000 U-Net passes per image), so generated images are ca
 | Iterations | 3600 (paper default — "more than 130 h of computation"; configurable, with checkpoint resume for multi-session runs) |
 | Train/test split | 87:13, leave-one-category-out (114 vs. 17 of 131 image classes) |
 
-Checkpoints are written at iteration 30 and every 600 iterations (the paper's Fig. 2 panels).
+Checkpoints are written at iteration 30 and every 600 iterations (the paper's Fig. 2 panels). Only the newest one is kept at full size (~5.6 GiB, needed to resume); older ones are rewritten as EMA-only files (~1.4 GiB), which keeps the run inside Kaggle's 20 GiB limit on `/kaggle/working`.
 
 ### Folder structure
 
